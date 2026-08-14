@@ -2,6 +2,7 @@ const nome = document.getElementById("nome");
 const email = document.getElementById("email");
 const cpf = document.getElementById("cpf");
 const tel = document.getElementById("tel");
+const mensagemSucesso = document.getElementById("mensagemSucesso");
 const form = document.getElementById("meuFormulario");
 
 function validarNome() {
@@ -128,8 +129,10 @@ form.addEventListener("submit", function (evento) {
   const telOk = validarTelefone();
   const cpfOk = validarCpf();
 
-  if (nomeOk && emailOk && telOk && cpfOk) {
+ if (nomeOk && emailOk && telOk && cpfOk) {
     console.log("Formulário válido, pronto pra enviar!");
+    document.querySelector("button").style.display = "none";
+    mensagemSucesso.style.display = "block";
   } else {
     console.log("Ainda tem campo inválido");
   }
