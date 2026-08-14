@@ -4,75 +4,133 @@ const cpf = document.getElementById("cpf");
 const tel = document.getElementById("tel");
 const form = document.getElementById("meuFormulario");
 
-form.addEventListener("submit", function (evento) {
-  evento.preventDefault();
-  console.log("Formulário enviado!");
+function validarNome() {
+  const partesDoNome = nome.value.trim().split(" ");
+  const nomeOk = partesDoNome.length >= 2;
 
-  const valorNome = nome.value;
-  const valorEmail = email.value;
-  const valorCpf = cpf.value;
-  const valorTel = tel.value;
-
-  const partesDoNome = valorNome.trim().split(" ");
-
-  if (partesDoNome.length >= 2) {
-    console.log("Nome válido");
+  if (nomeOk) {
+    nome.classList.add("valido");
+    nome.classList.remove("invalido");
   } else {
-    console.log("Nome inválido, precisa de nome e sobrenome");
+    nome.classList.add("invalido");
+    nome.classList.remove("valido");
   }
 
+  return nomeOk;
+}
+
+function validarEmail() {
   const padraoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailOk = padraoEmail.test(email.value);
 
-  if (padraoEmail.test(valorEmail)) {
-    console.log("E-mail válido");
+  if (emailOk) {
+    email.classList.add("valido");
+    email.classList.remove("invalido");
   } else {
-    console.log("E-mail inválido");
+    email.classList.add("invalido");
+    email.classList.remove("valido");
   }
 
-  const cpfLimpo = valorCpf.replace(/\D/g, "");
-  console.log(cpfLimpo);
+  return emailOk;
+}
 
-  if (cpfLimpo.length !== 11) {
-    console.log("CPF inválido, precisa ter 11 números");
-  } else if (/^(\d)\1{10}$/.test(cpfLimpo)) {
-    console.log("CPF inválido, números repetidos não existem");
+function validarTelefone() {
+  const telLimpo = tel.value.replace(/\D/g, "");
+  const telOk = telLimpo.length === 11;
+
+  if (telOk) {
+    tel.classList.add("valido");
+    tel.classList.remove("invalido");
   } else {
-    console.log("Passou nas checagens básicas, hora de calcular os dígitos");
+    tel.classList.add("invalido");
+    tel.classList.remove("valido");
+  }
 
+  return telOk;
+}
+
+function validarCpf() {
+  const cpfLimpo = cpf.value.replace(/\D/g, "");
+  let cpfOk = false;
+
+  if (cpfLimpo.length === 11 && !/^(\d)\1{10}$/.test(cpfLimpo)) {
     let soma = 0;
     for (let i = 0; i < 9; i++) {
       soma = soma + Number(cpfLimpo[i]) * (10 - i);
     }
-
     let resto = soma % 11;
     let digito1 = 11 - resto;
-    if (digito1 >= 10) {
-      digito1 = 0;
-    }
-
-    const digito1Real = Number(cpfLimpo[9]);
-    if (digito1 === digito1Real) {
-      console.log("Primeiro dígito verificador OK");
-    } else {
-      console.log("Primeiro dígito verificador ERRADO — CPF inválido");
-    }
+    if (digito1 >= 10) digito1 = 0;
 
     let soma2 = 0;
     for (let i = 0; i < 10; i++) {
       soma2 = soma2 + Number(cpfLimpo[i]) * (11 - i);
     }
-
     let resto2 = soma2 % 11;
     let digito2 = 11 - resto2;
-    if (digito2 >= 10) {
-      digito2 = 0;
-    }
+    if (digito2 >= 10) digito2 = 0;
 
-    const digito2Real = Number(cpfLimpo[10]);
-    if (digito2 === digito2Real) {
-      console.log("Segundo dígito verificador OK");
-    } else {
-      console.log("Segundo dígito verificador ERRADO — CPF inválido");
-    }
+    const digito1Ok = digito1 === Number(cpfLimpo[9]);
+    const digito2Ok = digito2 === Number(cpfLimpo[10]);
+
+    cpfOk = digito1Ok && digito2Ok;
+  }
+
+  if (cpfOk) {
+    cpf.classList.add("valido");
+    cpf.classList.remove("invalido");
+  } else {
+    cpf.classList.add("invalido");
+    cpf.classList.remove("valido");
+  }
+
+  return cpfOk;
+}
+
+nome.addEventListener("input", validarNome);
+email.addEventListener("input", validarEmail);
+
+cpf.addEventListener("input", function () {
+  let valor = cpf.value.replace(/\D/g, "");
+  valor = valor.slice(0, 11);
+
+  if (valor.length > 9) {
+    valor = valor.replace(/^(\d{3})(\d{3})(\d{3})(\d{1,2})$/, "$1.$2.$3-$4");
+  } else if (valor.length > 6) {
+    valor = valor.replace(/^(\d{3})(\d{3})(\d{1,3})$/, "$1.$2.$3");
+  } else if (valor.length > 3) {
+    valor = valor.replace(/^(\d{3})(\d{1,3})$/, "$1.$2");
+  }
+
+  cpf.value = valor;
+  validarCpf();
+});
+
+tel.addEventListener("input", function () {
+  let valor = tel.value.replace(/\D/g, "");
+  valor = valor.slice(0, 11);
+
+  if (valor.length > 6) {
+    valor = valor.replace(/^(\d{2})(\d{5})(\d{1,4})$/, "($1) $2-$3");
+  } else if (valor.length > 2) {
+    valor = valor.replace(/^(\d{2})(\d{1,5})$/, "($1) $2");
+  }
+
+  tel.value = valor;
+  validarTelefone();
+});
+
+form.addEventListener("submit", function (evento) {
+  evento.preventDefault();
+
+  const nomeOk = validarNome();
+  const emailOk = validarEmail();
+  const telOk = validarTelefone();
+  const cpfOk = validarCpf();
+
+  if (nomeOk && emailOk && telOk && cpfOk) {
+    console.log("Formulário válido, pronto pra enviar!");
+  } else {
+    console.log("Ainda tem campo inválido");
   }
 });
