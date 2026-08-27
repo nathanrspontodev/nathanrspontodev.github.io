@@ -1,6 +1,6 @@
 body {
   font-family: arial narrow, sans-serif;
-  background-color: #000000;
+  background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,13 +10,13 @@ body {
 }
 
 h1 {
-  color: #ff0080;
+  color: #000000;
   font-family: Montserrat, sans-serif;
   font-size: 32px;
   margin-bottom: 20px;
 }
 form {
-  background-color: white;
+  background-color: rgb(3, 0, 0);
   padding: 32px;
   border-radius: 12px;
   width: 320px;
@@ -71,4 +71,16 @@ input.invalido {
   color: #ff0080;
   font-weight: bold;
   text-align: center;
+}
+.label-cpf {
+  color: #f8f7f8;
+}
+.label-nome {
+  color: #f8f7f8;
+}
+.label-email {
+  color: #f8f7f8;
+}
+.label-tel {
+  color: #f8f7f8;
 }
