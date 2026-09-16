@@ -1,42 +1,143 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Página de login</title>
+  <title>Lorem Ipsum</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>-CADASTRO-</h1>
+  <!-- Cabeçalho / Banner -->
+  <header class="banner">
+    <div class="banner-content">
+      <h1>LOREM IPSUM</h1>
+      <p class="subtitle">DESIGN BY DUOROREM</p>
+      <nav class="menu">
+        <a href="#" class="active">HOMEPAGE</a>
+        <a href="#">LEFT SIDEBAR</a>
+        <a href="#">RIGHT SIDEBAR</a>
+        <a href="#">NO SIDEBAR</a>
+      </nav>
+    </div>
+  </header>
 
-  <form id="meuFormulario">
+  <!-- Conteúdo principal + sidebar -->
+  <div class="container">
 
-    <div>
-      <label for="nome" class = "label-nome">NOME COMPLETO:</label>
-      <input type="text" id="nome" name="nome">
+    <main class="content">
+      <h2>WELCOME TO LOREM IPSUM!</h2>
+      <p class="lead">Integer sit amet pede vel arcu aliquet pretium</p>
+
+      <img src="images/pic07.jpg" alt="Cais ao pôr do sol" class="featured-image">
+
+      <p>
+        Este é o <strong>Lorem Ipsum</strong>, um template HTML5 responsivo gratuito criado por
+        <a href="#">Duororem</a>. Disponibilizado gratuitamente sob a licença
+        <a href="#">Creative Commons Attribution</a>, então use como quiser (pessoal ou comercial)
+        — apenas nos dê crédito! Confira mais do nosso trabalho em
+        <a href="#">nosso site</a> ou nos siga no <a href="#">Twitter</a>.
+      </p>
+      <p>
+        Sed etiam vestibulum velit, euismod luctus quam nisl id lorem. Quisque erat.
+        Vestibulum pellentesque, justo mollis pretium suscipit, justo nulla blandit libero,
+        in blandit augue justo quis nisl. Fusce mattis viverra elit. Fusce quis tortor.
+        Consectetur adipiscing elit. Nam pede erat, porta eu, lobortis eget lorem ipsum dolor.
+      </p>
+    </main>
+
+    <aside class="sidebar">
+      <h3>PELLENTESQUE VULPUTATE</h3>
+
+      <article class="post">
+        <p class="meta">AUGUST 11, 2002 | (10) COMMENTS</p>
+        <div class="post-body">
+          <img src="images/pic04.jpg" alt="Miniatura">
+          <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Pellentesque viverra enim.</p>
+        </div>
+      </article>
+
+      <article class="post">
+        <p class="meta">AUGUST 11, 2003 | (10) COMMENTS</p>
+        <div class="post-body">
+          <img src="images/pic05.jpg" alt="Miniatura">
+          <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Pellentesque viverra enim.</p>
+        </div>
+      </article>
+
+      <article class="post">
+        <p class="meta">AUGUST 11, 2003 | (10) COMMENTS</p>
+        <div class="post-body">
+          <img src="images/pic06.jpg" alt="Miniatura">
+          <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Pellentesque viverra enim.</p>
+        </div>
+      </article>
+    </aside>
+
+  </div>
+
+  <!-- Seção de 3 colunas -->
+  <section class="columns">
+
+    <div class="column">
+      <h4>AENEAN ELEMENTUM FACILISIS</h4>
+      <img src="images/pic01.jpg" alt="Barril vermelho">
+      <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum. Quisque dictum. Pellentesque viverra elit.</p>
+      <a href="#" class="btn">MORE DETAILS</a>
     </div>
 
-    <div>
-      <label for="email"class = "label-email">E-MAIL:</label>
-      <input type="email" id="email" name="email">
+    <div class="column">
+      <h4>FUSCE ULTRICES FRINGILLA</h4>
+      <img src="images/pic02.jpg" alt="Espiga de trigo">
+      <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum. Quisque dictum. Pellentesque viverra elit.</p>
+      <a href="#" class="btn">MORE DETAILS</a>
     </div>
 
-    <div>
-      <label for="tel" class = "label-tel">TELEFONE:</label>
-      <input type="text" id="tel" name="tel">
+    <div class="column">
+      <h4>ETIAM RHONCUS VOLUPTAT ERAT</h4>
+      <img src="images/pic03.jpg" alt="Cerca de arame">
+      <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. Vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum. Quisque dictum. Pellentesque viverra elit.</p>
+      <a href="#" class="btn">MORE DETAILS</a>
     </div>
 
-    <div>
-      <label for="cpf" class = "label-cpf">CPF:</label>
-      <input type="text" id="cpf" name="cpf">
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+
+    <div class="footer-column">
+      <h4>LATEST POSTS</h4>
+      <ul>
+        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
+        <li><a href="#">Lorem ipsum consectetur adipiscing</a></li>
+        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
+        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
+        <li><a href="#">Maecenas vitae orci feugiat elit</a></li>
+      </ul>
     </div>
 
-    <button type="submit">Confirmar</button>
-  <p id="mensagemSucesso">Formulário enviado com sucesso!</p>
+    <div class="footer-column">
+      <h4>ULTRICES FRINGILLA</h4>
+      <ul>
+        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
+        <li><a href="#">Lorem ipsum consectetur adipiscing</a></li>
+        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
+        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
+        <li><a href="#">Maecenas vitae orci feugiat elit</a></li>
+      </ul>
+    </div>
 
-  </form>
-</form>
+    <div class="footer-column">
+      <h4>AENEAN ELEMENTUM</h4>
+      <ul>
+        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
+        <li><a href="#">Lorem ipsum consectetur adipiscing</a></li>
+        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
+        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
+        <li><a href="#">Maecenas vitae orci feugiat elit</a></li>
+      </ul>
+    </div>
 
-  <script src="script.js"></script>
+  </footer>
+
 </body>
 </html>
