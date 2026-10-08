@@ -479,7 +479,7 @@ Sem espaços: 28</code></pre>
     return nome
       .trim()
       .split(" ")
-      .filter((palavra) => palavra !== "")   // elimina espaços duplicados
+      .filter((palavra) => palavra !== "") 
       .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1).toLowerCase())
       .join(" ");
   }
