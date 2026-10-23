@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nathan Rodrigues - Desenvolvedor</title>
+  <script>try{var t=localStorage.getItem('tema');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-card: #111111;
+      --text: #ffffff;
+      --text-soft: #a6a6a6;
+      --accent: #ffffff;
+      --accent-2: #bdbdbd;
+      --border: #333333;
+      --radius: 14px;
+      --hover: #d9d9d9;
+      --header-bg: rgba(0, 0, 0, 0.85);
+      --glass-1: rgba(255,255,255,.14);
+      --glass-2: rgba(255,255,255,.04);
+      --glass-borda: rgba(255,255,255,.18);
+      --barra: rgba(255,255,255,.85);
+      --barra-suave: rgba(255,255,255,.35);
+      --sombra: rgba(0,0,0,.4);
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --bg-card: #f3f3f3;
+      --text: #000000;
+      --text-soft: #555555;
+      --accent: #000000;
+      --accent-2: #444444;
+      --border: #d4d4d4;
+      --hover: #333333;
+      --header-bg: rgba(255, 255, 255, 0.88);
+      --glass-1: rgba(0,0,0,.10);
+      --glass-2: rgba(0,0,0,.03);
+      --glass-borda: rgba(0,0,0,.18);
+      --barra: rgba(0,0,0,.85);
+      --barra-suave: rgba(0,0,0,.3);
+      --sombra: rgba(0,0,0,.15);
+      color-scheme: light;
+    }
+    :root[data-theme="light"] .skill-lista img { filter: invert(1); }
+    body, header, .card { transition: background-color .25s, color .25s, border-color .25s; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    section { padding: 90px 20px 40px; max-width: 1000px; margin: 0 auto; }
+    h2 { font-size: 2rem; margin-bottom: 30px; }
+    h2::after {
+      content: ""; display: block; width: 60px; height: 4px; margin-top: 8px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 4px;
+    }
+
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav {
+      max-width: 1000px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .tema-btn {
+      width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--text);
+      display: grid; place-items: center; transition: transform .2s, border-color .2s;
+    }
+    .tema-btn:hover { transform: rotate(18deg) scale(1.08); border-color: var(--text); }
+    .tema-btn svg { width: 18px; height: 18px; }
+    .tema-btn .lua { display: none; }
+    :root[data-theme="light"] .tema-btn .sol { display: none; }
+    :root[data-theme="light"] .tema-btn .lua { display: block; }
+    nav ul a { color: var(--text-soft); transition: color .2s; }
+    nav ul a:hover { color: var(--accent-2); }
+
+    #home {
+      min-height: 100vh; display: grid; align-items: center; gap: 40px;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    #home .saudacao { color: var(--text-soft); font-size: 1rem; }
+    #home h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
+    #home h1 span {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    #home h2.cargo {
+      font-size: clamp(1.1rem, 3vw, 1.5rem); margin: 10px 0 0; min-height: 2.2rem;
+    }
+    #home h2.cargo::after { display: none; }
+    .cursor {
+      display: inline-block; width: 2px; height: 1.1em; margin-left: 3px;
+      background: var(--accent-2); vertical-align: -0.15em;
+      animation: piscar .8s steps(1) infinite;
+    }
+    @keyframes piscar { 50% { opacity: 0; } }
+    #home .descricao { color: var(--text-soft); max-width: 520px; margin: 14px 0 30px; font-size: 1.05rem; }
+
+    .visual { display: flex; justify-content: center; }
+    .vidro {
+      width: min(300px, 80%); aspect-ratio: 1 / 0.95; padding: 28px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--glass-1), var(--glass-2));
+      border: 1px solid var(--glass-borda);
+      box-shadow: 0 20px 50px var(--sombra);
+      backdrop-filter: blur(10px);
+      display: flex; flex-direction: column; justify-content: center; gap: 16px;
+      animation: flutuar 5s ease-in-out infinite;
+    }
+    .vidro i {
+      display: block; height: 14px; border-radius: 8px;
+      background: var(--barra);
+      animation: barra 3.2s ease-in-out infinite;
+    }
+    .vidro i:nth-child(1) { width: 70%; }
+    .vidro i:nth-child(2) { width: 35%; animation-delay: .4s; }
+    .vidro i:nth-child(3) { width: 90%; background: var(--barra-suave); animation-delay: .8s; }
+    .vidro i:nth-child(4) { width: 55%; animation-delay: 1.2s; }
+    @keyframes flutuar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    @keyframes barra { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(.6); } }
+    .vidro i { transform-origin: left center; }
+
+    @media (max-width: 800px) {
+      #home { grid-template-columns: 1fr; padding-top: 110px; }
+      .visual { order: -1; }
+    }
+    .botoes { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 26px; border-radius: 999px; font-weight: 600;
+      border: 2px solid var(--accent); transition: transform .2s, background .2s;
+    }
+    .btn.primario { background: var(--text); color: var(--bg); }
+    .btn.primario:hover { background: var(--hover); border-color: var(--hover); }
+    .btn:hover { transform: translateY(-3px); }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: transform .2s, border-color .2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card h3 { margin-bottom: 10px; }
+    .card p { color: var(--text-soft); }
+
+    #about p { color: var(--text-soft); margin-bottom: 16px; }
+    .educacao { margin-top: 30px; }
+    .educacao small { color: var(--accent-2); }
+
+    #skills h2 { text-align: center; color: var(--accent); }
+    #skills h2::after { margin-left: auto; margin-right: auto; }
+    #skills .grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); align-items: start; }
+    #skills .card h3 { color: var(--accent); margin-bottom: 18px; }
+    .skill-lista { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .skill-lista li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 10px;
+      background: var(--bg); border: 1px solid transparent;
+      transition: border-color .2s, transform .2s;
+    }
+    .skill-lista li:hover { border-color: var(--accent); transform: translateX(4px); }
+    .skill-lista img, .skill-lista svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag {
+      padding: 4px 12px; border-radius: 999px; font-size: .85rem;
+      background: rgba(255, 255, 255, .1); color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .foco { margin-top: 36px; padding: 32px; }
+    .foco:hover { transform: none; border-color: var(--border); }
+    .foco-topo { text-align: center; margin-bottom: 24px; }
+    .foco-topo h3 { font-size: 1.4rem; margin-bottom: 6px; }
+    .foco-topo p { font-size: .95rem; }
+    .contador {
+      display: inline-block; margin-top: 12px; padding: 4px 14px; border-radius: 999px;
+      font-size: .75rem; font-weight: 700; border: 1px solid var(--border); background: var(--bg);
+    }
+    .tech-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    .tech-card {
+      text-align: left; font: inherit; color: var(--text); cursor: pointer;
+      display: grid; grid-template-columns: 38px 1fr; gap: 4px 12px; align-items: center; align-content: start;
+      padding: 16px; border-radius: 12px; background: var(--bg); border: 1px solid var(--border);
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+    .tech-card:hover { transform: translateY(-3px); border-color: var(--text); }
+    .tech-card.ativo { border-color: var(--text); box-shadow: 0 0 0 1px var(--text); }
+    .tech-card .ico {
+      width: 38px; height: 38px; border-radius: 10px; background: var(--text);
+      display: grid; place-items: center; grid-row: 1 / 2;
+      font-weight: 800; font-size: .8rem; color: var(--bg);
+    }
+    .tech-card .ico img { width: 20px; height: 20px; }
+    :root:not([data-theme="light"]) .tech-card .ico img { filter: invert(1); }
+    .tech-card strong { font-size: .95rem; display: block; }
+    .tech-card small { color: var(--text-soft); font-size: .72rem; display: block; line-height: 1.3; }
+    .tech-card .resumo { grid-column: 1 / -1; color: var(--text-soft); font-size: .8rem; margin-top: 6px; }
+    .aplico { margin-top: 24px; padding: 22px; border-radius: 12px; background: var(--bg); border: 1px solid var(--border); }
+    .aplico-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; }
+    .aplico-topo h4 { font-size: 1.05rem; }
+    .aplico-topo span { font-size: .75rem; color: var(--text-soft); }
+    .aplico ul { list-style: none; display: grid; gap: 10px; }
+    .aplico li {
+      padding: 11px 14px; border-radius: 8px; font-size: .9rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      animation: aparece .35s ease both;
+    }
+    .aplico li:nth-child(2) { animation-delay: .07s; } .aplico li:nth-child(3) { animation-delay: .14s; }
+    @keyframes aparece { from { opacity: 0; transform: translateY(8px); } }
+    @media (max-width: 600px) { .foco { padding: 20px; } }
+
+    #projects .grid { grid-template-columns: repeat(2, 1fr); align-items: stretch; }
+    .projeto { display: flex; flex-direction: column; padding: 28px; }
+    .projeto .icone {
+      width: 48px; height: 48px; border-radius: 12px; margin-bottom: 20px;
+      background: var(--text); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .projeto .icone svg { width: 24px; height: 24px; }
+    .projeto h3 { font-size: 1.15rem; margin-bottom: 12px; }
+    .projeto > p { font-size: .92rem; margin-bottom: 18px; }
+    .destaques, .techs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .destaque {
+      padding: 5px 12px; border-radius: 8px; font-size: .78rem;
+      border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    }
+    .tech {
+      padding: 4px 12px; border-radius: 999px; font-size: .72rem; font-weight: 700;
+      background: var(--text); color: var(--bg);
+    }
+    .projeto .links { margin-top: auto; padding-top: 8px; display: flex; gap: 12px; }
+    .projeto .links a {
+      flex: 1; text-align: center; padding: 11px; border-radius: 999px;
+      font-size: .85rem; font-weight: 700; border: 2px solid var(--text);
+      transition: transform .2s, background .2s;
+    }
+    .projeto .links a.demo { background: var(--text); color: var(--bg); }
+    .projeto .links a.codigo { color: var(--text); }
+    .projeto .links a:hover { transform: translateY(-2px); }
+    .projeto .links a.demo:hover { background: var(--hover); }
+    .projeto .links a.codigo:hover { background: var(--border); }
+    @media (max-width: 760px) { #projects .grid { grid-template-columns: 1fr; } }
+
+
+    #modal { position: fixed; inset: 0; z-index: 100; display: none; background: rgba(0,0,0,.78); padding: 3vh 3vw; }
+    #modal.aberto { display: block; animation: aparecer .25s ease; }
+    @keyframes aparecer { from { opacity: 0; } }
+    #modal .caixa { position: relative; width: 100%; height: 100%; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+    #modal iframe { width: 100%; height: 100%; border: 0; display: block; }
+    #modal .fechar {
+      position: absolute; top: 10px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid rgba(128,128,128,.6); background: rgba(0,0,0,.7); color: #fff; font-size: 1.2rem; cursor: pointer;
+    }
+    #modal .fechar:hover { background: #000; }
+    body.travado { overflow: hidden; }
+
+    .contato-item { word-break: break-word; }
+    .contato-item a { color: var(--accent-2); }
+
+    footer {
+      text-align: center; padding: 40px 20px; margin-top: 60px;
+      color: var(--text-soft); border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#home" class="logo">|NATHAN|</a>
+      <ul>
+        <li><a href="#home">Início</a></li>
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experiência</a></li>
+        <li><a href="#projects">Projetos</a></li>
+        <li><a href="#contact">Contato</a></li>
+        <li>
+          <button class="tema-btn" id="tema" type="button" aria-label="Alternar modo escuro/claro" title="Alternar modo escuro/claro">
+            <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home">
+      <div>
+        <p class="saudacao">Olá, eu sou</p>
+        <h1><span>Nathan Rodrigues</span></h1>
+        <h2 class="cargo"><span id="digitando"></span><span class="cursor"></span></h2>
+        <p class="descricao">Criando soluções digitais que unem funcionalidade, inovação e escalabilidade. Especializado em desenvolvimento web moderno com foco em qualidade e resultados.</p>
+        <div class="botoes">
+          <a href="#projects" class="btn primario">Ver Projetos</a>
+          <a href="#contact" class="btn">Contato</a>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="vidro"><i></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>Sobre Mim</h2>
+      <p>Sou desenvolvedor de software e busco criar soluções digitais que unem funcionalidade, inovação e escalabilidade. Tenho um perfil proativo e orientado a resultados, prezando sempre pela qualidade, organização e cumprimento de prazos.</p>
+      <p>Atualmente, trabalho na área de tecnologia e estou em constante evolução profissional, buscando ampliar minhas habilidades técnicas e colaborar em projetos inovadores que gerem resultados relevantes para usuários e organizações.</p>
+
+      <div class="card educacao">
+        <h3>Educação</h3>
+        <p><strong>Bacharelado em Sistemas de Informação</strong></p>
+        <p>Cefet/RJ - Centro Federal de Educação Tecnológica Celso Suckow da Fonseca</p>
+        <small>2025 - 2029 (previsão de conclusão)</small>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Front-end</h3>
+          <ul class="skill-lista">
+            <li><img src="https://cdn.simpleicons.org/html5/ffffff" alt="" onerror="this.style.display='none'">HTML</li>
+            <li><img src="https://cdn.simpleicons.org/css3/ffffff" alt="" onerror="this.style.display='none'">CSS</li>
+            <li><img src="https://cdn.simpleicons.org/javascript/ffffff" alt="" onerror="this.style.display='none'">JavaScript</li>
+            <li><img src="https://cdn.simpleicons.org/vuedotjs/ffffff" alt="" onerror="this.style.display='none'">Vue.js</li>
+            <li><img src="https://cdn.simpleicons.org/react/ffffff" alt="" onerror="this.style.display='none'">React</li>
+            <li><img src="https://cdn.simpleicons.org/typescript/ffffff" alt="" onerror="this.style.display='none'">TypeScript</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Back-end</h3>
+          <ul class="skill-lista">
+            <li><img src="https://cdn.simpleicons.org/c/ffffff" alt="" onerror="this.style.display='none'">C</li>
+            <li><img src="https://cdn.simpleicons.org/python/ffffff" alt="" onerror="this.style.display='none'">Python</li>
+            <li><img src="https://cdn.simpleicons.org/nodedotjs/ffffff" alt="" onerror="this.style.display='none'">Node.js</li>
+            <li><img src="https://cdn.simpleicons.org/openjdk/ffffff" alt="" onerror="this.style.display='none'">Java</li>
+            <li><img src="https://cdn.simpleicons.org/php/ffffff" alt="" onerror="this.style.display='none'">PHP</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Banco de dados</h3>
+          <ul class="skill-lista">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>SQL</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Versionamento e Colaboração</h3>
+          <ul class="skill-lista">
+            <li><img src="https://cdn.simpleicons.org/git/ffffff" alt="" onerror="this.style.display='none'">Git</li>
+            <li><img src="https://cdn.simpleicons.org/github/ffffff" alt="" onerror="this.style.display='none'">GitHub</li>
+            <li><img src="https://cdn.simpleicons.org/gitlab/ffffff" alt="" onerror="this.style.display='none'">GitLab</li>
+            <li><img src="https://cdn.simpleicons.org/azuredevops/ffffff" alt="" onerror="this.style.display='none'">Azure DevOps</li>
+            <li><img src="https://cdn.simpleicons.org/docker/ffffff" alt="" onerror="this.style.display='none'">Docker</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card foco">
+        <div class="foco-topo">
+          <h3>Tecnologias em ação</h3>
+          <p>Clique em uma tecnologia para ver como eu aplico cada uma delas.</p>
+          <span class="contador">Tecnologias em foco: <span id="qtdTechs">0</span></span>
+        </div>
+        <div class="tech-grid" id="techGrid"></div>
+        <div class="aplico" aria-live="polite">
+          <div class="aplico-topo"><h4 id="aplicoTitulo"></h4><span>Foco atual</span></div>
+          <ul id="aplicoLista"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Experiência</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Projetos Acadêmicos</h3>
+          <p>Entre esses projetos, alguns foram realizados como freelancer, outros para aprimorar conhecimentos em novas tecnologias e também para entregas acadêmicas.</p>
+        </div>
+        <div class="card">
+          <h3>Projetos Pessoais</h3>
+          <p>Participei do desenvolvimento de diversos projetos autorais, conduzindo todas as etapas: desde a concepção da ideia, design e prototipação até a implementação e hospedagem.</p>
+        </div>
+        <div class="card">
+          <h3>Aperfeiçoamento Contínuo</h3>
+          <p>Todas as tecnologias citadas já foram aplicadas na prática em diferentes projetos, e sigo me aperfeiçoando continuamente para elevar a qualidade e eficiência das minhas entregas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projetos Desenvolvidos</h2>
+      <div class="grid">
+        <article class="card projeto">
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/></svg></div>
+          <h3>Snake Game Futurista</h3>
+          <p>Versão moderna do clássico jogo da cobrinha, com visual neon, power-ups, ranking que fica salvo e controles para teclado e celular.</p>
+          <div class="destaques">
+            <span class="destaque">🎮 Gameplay Aprimorado</span>
+            <span class="destaque">✨ Visual Neon</span>
+            <span class="destaque">🏆 Sistema de Ranking</span>
+            <span class="destaque">📱 Design Responsivo</span>
+            <span class="destaque">⚡ Power-ups Especiais</span>
+          </div>
+          <div class="techs">
+            <span class="tech">HTML5</span>
+            <span class="tech">CSS3</span>
+            <span class="tech">JavaScript</span>
+            <span class="tech">Canvas API</span>
+            <span class="tech">Responsive Design</span>
+          </div>
+          <div class="links">
+            <a href="#projects" class="demo" data-projeto="snake-game">Ver Demo</a>
+            <a href="https://github.com/nathanrspontodev/snake-game" class="codigo">Código</a>
+          </div>
+        </article>
+        <article class="card projeto">
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></div>
+          <h3>Gerenciador de Senhas</h3>
+          <p>Aplicação simples e intuitiva para guardar credenciais, com gerador de senhas fortes, indicador de força e busca.</p>
+          <div class="destaques">
+            <span class="destaque">🔑 Gerenciador de senhas</span>
+            <span class="destaque">👁️ Opção de visualizar</span>
+            <span class="destaque">📄 Copiar os dados</span>
+          </div>
+          <div class="techs">
+            <span class="tech">HTML5</span>
+            <span class="tech">CSS3</span>
+            <span class="tech">JavaScript</span>
+          </div>
+          <div class="links">
+            <a href="#projects" class="demo" data-projeto="gerenciador-senhas">Ver Demo</a>
+            <a href="https://github.com/nathanrspontodev/gerenciador-senhas" class="codigo">Código</a>
+          </div>
+        </article>
+        <article class="card projeto">
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></div>
+          <h3>Sistema de Biblioteca Digital</h3>
+          <p>Catálogo de livros com servidor Node.js e banco SQL: busca por título ou autor, filtros por gênero e situação, ordenação e controle de empréstimos.</p>
+          <div class="destaques">
+            <span class="destaque">📚 Catálogo completo</span>
+            <span class="destaque">🔍 Busca Avançada</span>
+            <span class="destaque">🔄 Controle de empréstimos</span>
+          </div>
+          <div class="techs">
+            <span class="tech">HTML5</span>
+            <span class="tech">CSS3</span>
+            <span class="tech">JavaScript</span>
+            <span class="tech">Node.js</span>
+            <span class="tech">SQL</span>
+          </div>
+          <div class="links">
+            <a href="#projects" class="demo" data-projeto="biblioteca-digital">Ver Demo</a>
+            <a href="https://github.com/nathanrspontodev/biblioteca-digital" class="codigo">Código</a>
+          </div>
+        </article>
+        <article class="card projeto">
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg></div>
+          <h3>Página de Login</h3>
+          <p>Tela de login animada feita com CSS: fundo em movimento, campos com rótulo flutuante e validação com feedback visual.</p>
+          <div class="destaques">
+            <span class="destaque">✨ Animações em CSS</span>
+            <span class="destaque">👁️ Mostrar senha</span>
+          </div>
+          <div class="techs">
+            <span class="tech">HTML5</span>
+            <span class="tech">CSS3</span>
+            <span class="tech">JavaScript</span>
+          </div>
+          <div class="links">
+            <a href="#projects" class="demo" data-projeto="login-animado">Ver Demo</a>
+            <a href="https://github.com/nathanrspontodev/login-animado" class="codigo">Código</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contato</h2>
+      <div class="grid">
+        <div class="card contato-item">
+          <h3>GitHub</h3>
+          <a href="https://github.com/nathanrspontodev">github.com/nathanrspontodev</a>
+        </div>
+        <div class="card contato-item">
+          <h3>LinkedIn</h3>
+          <a href="https://linkedin.com/in/nathanrodriguess19">linkedin.com/in/nathanrodriguess19</a>
+        </div>
+        <div class="card contato-item">
+          <h3>Email</h3>
+          <a href="mailto:seuemail@exemplo.com">nathanrs2006@gmail.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="modal" role="dialog" aria-modal="true" aria-label="Demonstração do projeto">
+    <div class="caixa">
+      <button class="fechar" id="fecharModal" type="button" aria-label="Fechar">✕</button>
+      <iframe id="quadro" title="Projeto"></iframe>
+    </div>
+  </div>
+
+
+  <footer>
+    © 2026 NATHAN RODRIGUES SANTOS. Todos os direitos reservados.
+  </footer>
+
+
+  <script>
+    const cargos = ["Desenvolvedor Frontend", "Desenvolvedor Backend"];
+    const alvo = document.getElementById("digitando");
+    let c = 0, i = 0, apagando = false;
+    function digitar() {
+      const texto = cargos[c];
+      alvo.textContent = texto.slice(0, i);
+      let espera = apagando ? 40 : 90;
+      if (!apagando && i === texto.length) { apagando = true; espera = 1500; }
+      else if (apagando && i === 0) { apagando = false; c = (c + 1) % cargos.length; espera = 400; }
+      else { i += apagando ? -1 : 1; }
+      setTimeout(digitar, espera);
+    }
+    digitar();
+  </script>
+
+  <script>
+    document.getElementById("tema").addEventListener("click", () => {
+      const raiz = document.documentElement;
+      const novo = raiz.getAttribute("data-theme") === "light" ? "dark" : "light";
+      raiz.setAttribute("data-theme", novo);
+      try { localStorage.setItem("tema", novo); } catch (e) {}
+    });
+
+    const techs = [
+      { nome: "Vue.js", icone: "vuedotjs", cat: "Front-end", nivel: "Intermediário",
+        resumo: "Componentização reativa para construir interfaces modulares.",
+        aplico: ["Divisão da interface em componentes reutilizáveis.", "Estado reativo para atualizar a tela sem recarregar.", "Consumo de APIs REST nos componentes."] },
+      { nome: "TypeScript", icone: "typescript", cat: "Front-end", nivel: "Intermediário",
+        resumo: "Tipagem estática para um código mais seguro e fácil de manter.",
+        aplico: ["Tipos e interfaces para descrever os dados do projeto.", "Erros pegos ainda na hora de programar.", "Autocomplete que acelera o desenvolvimento."] },
+      { nome: "JavaScript", icone: "javascript", cat: "Front-end", nivel: "Avançado",
+        resumo: "Base para interações ricas e páginas dinâmicas.",
+        aplico: ["Manipulação do DOM e eventos da página.", "Requisições assíncronas com fetch e async/await.", "Lógica de jogos e aplicações no navegador."] },
+      { nome: "Node.js", icone: "nodedotjs", cat: "Back-end", nivel: "Intermediário",
+        resumo: "Criação de servidores, APIs e automações com JavaScript.",
+        aplico: ["Servidor HTTP com rotas de uma API.", "Integração com banco de dados SQL.", "Scripts para automatizar tarefas."] },
+      { nome: "React", icone: "react", cat: "Front-end", nivel: "Intermediário",
+        resumo: "Interfaces baseadas em componentes e gerenciamento de estado.",
+        aplico: ["Componentes funcionais com hooks.", "Estado local e props entre componentes.", "Listas, formulários e renderização condicional."] },
+      { nome: "Java", icone: "openjdk", cat: "Back-end", nivel: "Intermediário",
+        resumo: "Programação orientada a objetos com tipagem forte.",
+        aplico: ["Classes, herança e encapsulamento.", "Coleções e tratamento de exceções.", "Organização do código em pacotes."] },
+      { nome: "PHP", icone: "php", cat: "Back-end", nivel: "Intermediário",
+        resumo: "Desenvolvimento server-side para aplicações web dinâmicas.",
+        aplico: ["Processamento de formulários no servidor.", "Conexão com banco de dados.", "Páginas dinâmicas geradas no back-end."] },
+      { nome: "Docker", icone: "docker", cat: "DevOps", nivel: "Básico",
+        resumo: "Containerização para ambientes portáteis e reproduzíveis.",
+        aplico: ["Imagens e containers para rodar o projeto em qualquer máquina.", "Dockerfile para padronizar o ambiente.", "Menos \"na minha máquina funciona\"."] },
+      { nome: "Azure DevOps", icone: "azuredevops", cat: "DevOps", nivel: "Básico",
+        resumo: "Boards, repositórios e pipelines no ecossistema Microsoft.",
+        aplico: ["Boards para organizar tarefas e sprints.", "Repositórios Git no mesmo lugar do planejamento.", "Pipelines para build e testes automáticos."] },
+    ];
+
+    const grid = document.getElementById("techGrid");
+    const tituloAplico = document.getElementById("aplicoTitulo");
+    const listaAplico = document.getElementById("aplicoLista");
+    document.getElementById("qtdTechs").textContent = techs.length;
+
+    function selecionar(i) {
+      grid.querySelectorAll(".tech-card").forEach((c, j) => c.classList.toggle("ativo", i === j));
+      tituloAplico.textContent = "Como aplico " + techs[i].nome;
+      listaAplico.innerHTML = "";
+      techs[i].aplico.forEach(t => { const li = document.createElement("li"); li.textContent = t; listaAplico.appendChild(li); });
+    }
+    techs.forEach((t, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "tech-card";
+      b.innerHTML = '<span class="ico"><img alt="" src="https://cdn.simpleicons.org/' + t.icone + '/ffffff" data-l="' + t.nome.slice(0, 2) + '" onerror="this.replaceWith(document.createTextNode(this.dataset.l))"></span>' +
+        '<span><strong></strong><small></small></span><span class="resumo"></span>';
+      b.querySelector("strong").textContent = t.nome;
+      b.querySelector("small").textContent = t.cat + " • " + t.nivel;
+      b.querySelector(".resumo").textContent = t.resumo;
+      b.addEventListener("click", () => selecionar(i));
+      grid.appendChild(b);
+    });
+    selecionar(0);
+  </script>
+
+  <script>
+    const PROJETOS = {"snake-game": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n  <title>Snake Game Futurista<\/title>\n  <style>\n    :root {\n      --neon-verde: #39ff14;\n      --neon-ciano: #00f0ff;\n      --neon-rosa: #ff2bd6;\n      --neon-amarelo: #ffe600;\n      --fundo: #05060f;\n    }\n    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }\n    body {\n      min-height: 100vh; background: var(--fundo); color: #e6faff;\n      font-family: \"Segoe UI\", system-ui, sans-serif;\n      display: flex; flex-direction: column; align-items: center; gap: 14px;\n      padding: 16px;\n      background-image:\n        radial-gradient(circle at 20% 10%, rgba(255,43,214,.15), transparent 40%),\n        radial-gradient(circle at 80% 90%, rgba(0,240,255,.15), transparent 40%);\n    }\n    .voltar { align-self: flex-start; color: var(--neon-ciano); text-decoration: none; font-size: .9rem; }\n    h1 {\n      font-size: clamp(1.4rem, 5vw, 2.2rem); letter-spacing: 3px; text-transform: uppercase;\n      color: var(--neon-ciano); text-shadow: 0 0 8px var(--neon-ciano), 0 0 22px var(--neon-ciano);\n    }\n    .hud { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; font-size: .95rem; }\n    .hud div {\n      padding: 6px 14px; border: 1px solid var(--neon-ciano); border-radius: 8px;\n      box-shadow: 0 0 8px rgba(0,240,255,.4) inset;\n    }\n    .hud b { color: var(--neon-verde); text-shadow: 0 0 6px var(--neon-verde); }\n    #poderes { min-height: 34px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }\n    .poder {\n      padding: 4px 12px; border-radius: 999px; font-size: .8rem; border: 1px solid;\n      animation: pulsar 1s ease-in-out infinite;\n    }\n    @keyframes pulsar { 50% { box-shadow: 0 0 14px currentColor; } }\n\n    .palco { position: relative; width: min(92vw, 440px); }\n    canvas {\n      width: 100%; height: auto; display: block; border-radius: 10px;\n      border: 2px solid var(--neon-rosa);\n      box-shadow: 0 0 18px var(--neon-rosa), 0 0 40px rgba(255,43,214,.35);\n      background: #070816; touch-action: none;\n    }\n    .tela {\n      position: absolute; inset: 0; display: flex; flex-direction: column;\n      align-items: center; justify-content: center; gap: 12px; text-align: center;\n      background: rgba(5,6,15,.82); border-radius: 10px; padding: 16px;\n    }\n    .tela.oculta { display: none; }\n    .tela h2 { color: var(--neon-amarelo); text-shadow: 0 0 10px var(--neon-amarelo); }\n    .tela p { font-size: .9rem; color: #a8c7d1; }\n    button, input {\n      font: inherit; border-radius: 8px; border: 2px solid var(--neon-verde);\n      background: transparent; color: var(--neon-verde); padding: 10px 22px; cursor: pointer;\n      text-shadow: 0 0 6px var(--neon-verde); box-shadow: 0 0 10px rgba(57,255,20,.4);\n      transition: transform .15s, background .15s;\n    }\n    button:hover { background: rgba(57,255,20,.15); transform: scale(1.05); }\n    input { cursor: text; text-align: center; width: 180px; color: #fff; }\n    input::placeholder { color: #5f7f6a; }\n\n    .ranking { width: min(92vw, 440px); }\n    .ranking h3 { color: var(--neon-amarelo); text-align: center; margin-bottom: 6px; text-shadow: 0 0 8px var(--neon-amarelo); }\n    .ranking ol { list-style: none; counter-reset: pos; }\n    .ranking li {\n      counter-increment: pos; display: flex; justify-content: space-between;\n      padding: 6px 14px; border-bottom: 1px solid rgba(0,240,255,.2);\n    }\n    .ranking li::before { content: counter(pos) \"º\"; color: var(--neon-rosa); width: 34px; }\n    .ranking li span:nth-child(1) { flex: 1; }\n    .ranking li span:nth-child(2) { color: var(--neon-verde); }\n    .ranking .vazio { color: #6b8590; justify-content: center; }\n    .ranking .vazio::before { content: \"\"; width: 0; }\n\n    .dpad { display: none; grid-template-columns: repeat(3, 62px); grid-template-rows: repeat(2, 62px); gap: 8px; }\n    .dpad button { padding: 0; font-size: 1.5rem; border-color: var(--neon-ciano); color: var(--neon-ciano); text-shadow: 0 0 6px var(--neon-ciano); }\n    .dpad .cima { grid-column: 2; grid-row: 1; }\n    .dpad .esq { grid-column: 1; grid-row: 2; }\n    .dpad .baixo { grid-column: 2; grid-row: 2; }\n    .dpad .dir { grid-column: 3; grid-row: 2; }\n    @media (hover: none), (max-width: 700px) { .dpad { display: grid; } .dica-teclado { display: none; } }\n    .dica-teclado { font-size: .8rem; color: #6b8590; }\n  <\/style>\n<\/head>\n<body>\n  <a class=\"voltar\" href=\"#\" onclick=\"parent.postMessage('fechar-projeto','*');return false\">← Voltar ao currículo<\/a>\n  <h1>Snake Neon<\/h1>\n\n  <div class=\"hud\">\n    <div>Pontos: <b id=\"pontos\">0<\/b><\/div>\n    <div>Recorde: <b id=\"recorde\">0<\/b><\/div>\n    <div>Nível: <b id=\"nivel\">1<\/b><\/div>\n  <\/div>\n  <div id=\"poderes\"><\/div>\n\n  <div class=\"palco\">\n    <canvas id=\"c\" width=\"400\" height=\"400\"><\/canvas>\n\n    <div class=\"tela\" id=\"telaInicio\">\n      <h2>PRONTO?<\/h2>\n      <p>Setas / WASD ou deslize na tela.<br>Espaço pausa o jogo.<\/p>\n      <p>⚡ Turbo &nbsp; ✨ Pontos x2 &nbsp; 👻 Atravessa paredes<\/p>\n      <button id=\"btnJogar\">Jogar<\/button>\n    <\/div>\n\n    <div class=\"tela oculta\" id=\"telaFim\">\n      <h2>GAME OVER<\/h2>\n      <p>Você fez <b id=\"pontosFinal\">0<\/b> pontos<\/p>\n      <form id=\"formNome\" class=\"oculta-form\" style=\"display:flex;flex-direction:column;gap:10px;align-items:center\">\n        <input id=\"nome\" maxlength=\"12\" placeholder=\"Seu nome\" autocomplete=\"off\">\n        <button type=\"submit\">Salvar no ranking<\/button>\n      <\/form>\n      <button id=\"btnDeNovo\">Jogar de novo<\/button>\n    <\/div>\n\n    <div class=\"tela oculta\" id=\"telaPausa\"><h2>PAUSADO<\/h2><p>Aperte espaço para continuar<\/p><\/div>\n  <\/div>\n\n  <div class=\"dpad\">\n    <button class=\"cima\" data-d=\"cima\" aria-label=\"Cima\">▲<\/button>\n    <button class=\"esq\" data-d=\"esq\" aria-label=\"Esquerda\">◀<\/button>\n    <button class=\"baixo\" data-d=\"baixo\" aria-label=\"Baixo\">▼<\/button>\n    <button class=\"dir\" data-d=\"dir\" aria-label=\"Direita\">▶<\/button>\n  <\/div>\n  <p class=\"dica-teclado\">Setas ou WASD para mover • Espaço para pausar<\/p>\n\n  <div class=\"ranking\">\n    <h3>🏆 Ranking<\/h3>\n    <ol id=\"listaRanking\"><\/ol>\n  <\/div>\n\n  <script>\n    const canvas = document.getElementById(\"c\");\n    const ctx = canvas.getContext(\"2d\");\n    const N = 20;                       // grade 20x20\n    const T = canvas.width / N;         // tamanho de cada célula\n\n    const PODERES = {\n      turbo:  { emoji: \"⚡\", nome: \"Turbo\",             cor: \"#ffe600\", dur: 5000 },\n      dobro:  { emoji: \"✨\", nome: \"Pontos x2\",         cor: \"#ff2bd6\", dur: 7000 },\n      fantasma:{ emoji: \"👻\", nome: \"Atravessa paredes\", cor: \"#00f0ff\", dur: 6000 },\n    };\n    const DIRS = { cima: [0,-1], baixo: [0,1], esq: [-1,0], dir: [1,0] };\n\n    let cobra, dir, proxDir, comida, item, ativos, pontos, rodando, pausado, loop, comeu;\n    const els = {\n      pontos: document.getElementById(\"pontos\"), recorde: document.getElementById(\"recorde\"),\n      nivel: document.getElementById(\"nivel\"), poderes: document.getElementById(\"poderes\"),\n      inicio: document.getElementById(\"telaInicio\"), fim: document.getElementById(\"telaFim\"),\n      pausa: document.getElementById(\"telaPausa\"), final: document.getElementById(\"pontosFinal\"),\n      form: document.getElementById(\"formNome\"), nome: document.getElementById(\"nome\"),\n      lista: document.getElementById(\"listaRanking\"),\n    };\n\n    /* ---------- ranking (salvo no navegador) ---------- */\n    const lerRanking = () => { try { return JSON.parse(localStorage.getItem(\"snake-ranking\")) || []; } catch { return []; } };\n    const gravarRanking = r => { try { localStorage.setItem(\"snake-ranking\", JSON.stringify(r)); } catch {} };\n    function mostrarRanking() {\n      const r = lerRanking();\n      els.lista.innerHTML = r.length\n        ? r.map(x => `<li><span><\/span><span>${x.pontos}<\/span><\/li>`).join(\"\")\n        : '<li class=\"vazio\">Ninguém jogou ainda<\/li>';\n      [...els.lista.querySelectorAll(\"li\")].forEach((li, i) => { if (r[i]) li.firstChild.textContent = r[i].nome; });\n      els.recorde.textContent = r.length ? r[0].pontos : 0;\n    }\n\n    /* ---------- jogo ---------- */\n    function livre(x, y) { return !cobra.some(p => p.x === x && p.y === y); }\n    function posAleatoria() {\n      let x, y;\n      do { x = Math.floor(Math.random() * N); y = Math.floor(Math.random() * N); }\n      while (!livre(x, y) || (comida && comida.x === x && comida.y === y));\n      return { x, y };\n    }\n    function novoJogo() {\n      cobra = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];\n      dir = proxDir = \"dir\"; pontos = 0; ativos = {}; item = null; comida = null;\n      comida = posAleatoria(); comeu = 0;\n      rodando = true; pausado = false;\n      els.inicio.classList.add(\"oculta\"); els.fim.classList.add(\"oculta\"); els.pausa.classList.add(\"oculta\");\n      atualizarHud(); clearTimeout(loop); passo();\n    }\n    function nivel() { return 1 + Math.floor(comeu / 5); }\n    function atraso() {\n      let t = Math.max(65, 135 - (nivel() - 1) * 9);\n      if (ativos.turbo) t *= 0.6;\n      return t;\n    }\n    function passo() {\n      if (!rodando) return;\n      if (!pausado) {\n        const agora = Date.now();\n        for (const k in ativos) if (ativos[k] < agora) delete ativos[k];\n        if (item && item.expira < agora) item = null;\n        mover();\n      }\n      desenhar();\n      if (rodando) loop = setTimeout(passo, atraso());\n    }\n    function mover() {\n      dir = proxDir;\n      const [dx, dy] = DIRS[dir];\n      let x = cobra[0].x + dx, y = cobra[0].y + dy;\n      if (x < 0 || x >= N || y < 0 || y >= N) {\n        if (ativos.fantasma) { x = (x + N) % N; y = (y + N) % N; }\n        else return fimDeJogo();\n      }\n      const cresce = comida.x === x && comida.y === y;\n      const corpo = cresce ? cobra : cobra.slice(0, -1);\n      if (corpo.some(p => p.x === x && p.y === y)) return fimDeJogo();\n\n      cobra.unshift({ x, y });\n      if (cresce) {\n        comeu++;\n        pontos += ativos.dobro ? 20 : 10;\n        comida = posAleatoria();\n        if (!item && Math.random() < 0.28) {\n          const tipo = Object.keys(PODERES)[Math.floor(Math.random() * 3)];\n          item = { ...posAleatoria(), tipo, expira: Date.now() + 8000 };\n        }\n      } else cobra.pop();\n\n      if (item && item.x === x && item.y === y) {\n        ativos[item.tipo] = Date.now() + PODERES[item.tipo].dur;\n        pontos += 5; item = null;\n      }\n      atualizarHud();\n    }\n    function atualizarHud() {\n      els.pontos.textContent = pontos; els.nivel.textContent = nivel();\n      els.poderes.innerHTML = Object.keys(ativos).map(k => {\n        const p = PODERES[k]; const s = Math.max(0, Math.ceil((ativos[k] - Date.now()) / 1000));\n        return `<span class=\"poder\" style=\"color:${p.cor};border-color:${p.cor}\">${p.emoji} ${p.nome} ${s}s<\/span>`;\n      }).join(\"\");\n    }\n    setInterval(() => { if (rodando && !pausado) atualizarHud(); }, 250);\n\n    function fimDeJogo() {\n      rodando = false; clearTimeout(loop);\n      els.final.textContent = pontos;\n      const r = lerRanking();\n      const entra = pontos > 0 && (r.length < 5 || pontos > r[r.length - 1].pontos);\n      els.form.style.display = entra ? \"flex\" : \"none\";\n      els.fim.classList.remove(\"oculta\");\n      if (entra) els.nome.focus();\n      desenhar();\n    }\n    els.form.addEventListener(\"submit\", e => {\n      e.preventDefault();\n      const nome = els.nome.value.trim() || \"Jogador\";\n      const r = lerRanking(); r.push({ nome, pontos });\n      r.sort((a, b) => b.pontos - a.pontos); gravarRanking(r.slice(0, 5));\n      els.nome.value = \"\"; els.form.style.display = \"none\"; mostrarRanking();\n    });\n\n    /* ---------- desenho ---------- */\n    function brilho(cor, blur) { ctx.shadowColor = cor; ctx.shadowBlur = blur; ctx.fillStyle = cor; }\n    function desenhar() {\n      ctx.shadowBlur = 0; ctx.fillStyle = \"#070816\"; ctx.fillRect(0, 0, 400, 400);\n      ctx.strokeStyle = \"rgba(0,240,255,.07)\"; ctx.lineWidth = 1;\n      for (let i = 1; i < N; i++) {\n        ctx.beginPath(); ctx.moveTo(i*T, 0); ctx.lineTo(i*T, 400); ctx.stroke();\n        ctx.beginPath(); ctx.moveTo(0, i*T); ctx.lineTo(400, i*T); ctx.stroke();\n      }\n      if (!cobra) return;\n      // comida\n      brilho(\"#ff2bd6\", 16); ctx.beginPath();\n      ctx.arc(comida.x*T + T/2, comida.y*T + T/2, T/2 - 3, 0, 7); ctx.fill();\n      // item de poder\n      if (item) {\n        const p = PODERES[item.tipo];\n        brilho(p.cor, 18); ctx.fillRect(item.x*T + 2, item.y*T + 2, T - 4, T - 4);\n        ctx.shadowBlur = 0; ctx.font = \"14px serif\"; ctx.textAlign = \"center\"; ctx.textBaseline = \"middle\";\n        ctx.fillText(p.emoji, item.x*T + T/2, item.y*T + T/2 + 1);\n      }\n      // cobra\n      const corCobra = ativos && ativos.fantasma ? \"#00f0ff\" : \"#39ff14\";\n      cobra.forEach((p, i) => {\n        brilho(corCobra, i === 0 ? 20 : 10);\n        ctx.globalAlpha = ativos && ativos.fantasma ? 0.65 : 1 - Math.min(i * 0.02, 0.4);\n        ctx.fillRect(p.x*T + 1, p.y*T + 1, T - 2, T - 2);\n      });\n      ctx.globalAlpha = 1; ctx.shadowBlur = 0;\n    }\n\n    /* ---------- controles ---------- */\n    function virar(nova) {\n      const oposta = { cima:\"baixo\", baixo:\"cima\", esq:\"dir\", dir:\"esq\" };\n      if (nova !== oposta[dir]) proxDir = nova;\n    }\n    function alternarPausa() {\n      if (!rodando) return;\n      pausado = !pausado; els.pausa.classList.toggle(\"oculta\", !pausado);\n    }\n    document.addEventListener(\"keydown\", e => {\n      const m = { ArrowUp:\"cima\", w:\"cima\", W:\"cima\", ArrowDown:\"baixo\", s:\"baixo\", S:\"baixo\",\n                  ArrowLeft:\"esq\", a:\"esq\", A:\"esq\", ArrowRight:\"dir\", d:\"dir\", D:\"dir\" };\n      if (e.target === els.nome) return;\n      if (m[e.key]) { e.preventDefault(); if (rodando) virar(m[e.key]); }\n      else if (e.key === \" \") { e.preventDefault(); alternarPausa(); }\n    });\n    document.querySelectorAll(\".dpad button\").forEach(b =>\n      b.addEventListener(\"pointerdown\", e => { e.preventDefault(); if (rodando) virar(b.dataset.d); }));\n    let ini = null;\n    canvas.addEventListener(\"touchstart\", e => { ini = e.touches[0]; }, { passive: true });\n    canvas.addEventListener(\"touchend\", e => {\n      if (!ini || !rodando) return;\n      const dx = e.changedTouches[0].clientX - ini.clientX, dy = e.changedTouches[0].clientY - ini.clientY;\n      if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;\n      virar(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? \"dir\" : \"esq\") : (dy > 0 ? \"baixo\" : \"cima\"));\n    });\n    document.getElementById(\"btnJogar\").onclick = novoJogo;\n    document.getElementById(\"btnDeNovo\").onclick = novoJogo;\n\n    mostrarRanking(); desenhar();\n  <\/script>\n<script>document.addEventListener('keydown',function(e){if(e.key==='Escape')parent.postMessage('fechar-projeto','*')})<\/script><\/body>\n<\/html>\n", "gerenciador-senhas": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>PassX - Gerenciador de Senhas<\/title>\n  <style>\n    :root { --bg:#0b1020; --card:#141a31; --borda:#26305a; --texto:#eef1ff; --suave:#9aa4cf; --destaque:#6c8cff; --ok:#3ddc97; --erro:#ff5d73; }\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body { min-height: 100vh; background: var(--bg); color: var(--texto); font-family: \"Segoe UI\", system-ui, sans-serif; padding: 20px; }\n    .wrap { max-width: 760px; margin: 0 auto; }\n    .voltar { color: var(--destaque); text-decoration: none; font-size: .9rem; }\n    header { text-align: center; margin: 18px 0 26px; }\n    header h1 { font-size: 2rem; }\n    header h1 span { color: var(--destaque); }\n    header p { color: var(--suave); margin-top: 6px; }\n\n    .card { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 22px; margin-bottom: 22px; }\n    .card h2 { font-size: 1.1rem; margin-bottom: 14px; }\n    form { display: grid; gap: 12px; }\n    .linha { display: flex; gap: 8px; }\n    input {\n      width: 100%; padding: 12px 14px; border-radius: 10px; font: inherit;\n      border: 1px solid var(--borda); background: var(--bg); color: var(--texto);\n    }\n    input:focus { outline: 2px solid var(--destaque); border-color: transparent; }\n    button {\n      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 12px 18px;\n      font-weight: 600; background: var(--destaque); color: #0b1020; transition: transform .15s, opacity .15s;\n    }\n    button:hover { transform: translateY(-2px); }\n    button.sec { background: transparent; color: var(--texto); border: 1px solid var(--borda); }\n    button.mini { padding: 8px 10px; font-size: 1rem; background: transparent; border: 1px solid var(--borda); color: var(--texto); }\n    button.mini:hover { border-color: var(--destaque); }\n    button.perigo:hover { border-color: var(--erro); }\n    .forca { height: 6px; border-radius: 4px; background: var(--borda); overflow: hidden; }\n    .forca div { height: 100%; width: 0; transition: width .25s, background .25s; }\n    .forca-texto { font-size: .8rem; color: var(--suave); }\n\n    .topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }\n    .topo h2 { margin: 0; }\n    .topo input { max-width: 240px; }\n    ul { list-style: none; display: grid; gap: 10px; }\n    li { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--borda); border-radius: 12px; background: var(--bg); }\n    .info { flex: 1; min-width: 0; }\n    .info strong { display: block; }\n    .info small { color: var(--suave); display: block; word-break: break-all; }\n    .senha { font-family: Consolas, monospace; letter-spacing: 1px; margin-top: 4px; word-break: break-all; }\n    .acoes { display: flex; gap: 6px; }\n    .vazio { text-align: center; color: var(--suave); padding: 20px; }\n    .aviso { font-size: .8rem; color: var(--suave); text-align: center; }\n    #toast {\n      position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 80px);\n      background: var(--ok); color: #06251a; padding: 10px 18px; border-radius: 999px; font-weight: 700;\n      transition: transform .3s; pointer-events: none;\n    }\n    #toast.mostra { transform: translate(-50%, 0); }\n  <\/style>\n<\/head>\n<body>\n  <div class=\"wrap\">\n    <a class=\"voltar\" href=\"#\" onclick=\"parent.postMessage('fechar-projeto','*');return false\">← Voltar ao currículo<\/a>\n    <header>\n      <h1>🔐 Pass<span>X<\/span><\/h1>\n      <p>Guarde suas senhas com praticidade, direto no seu navegador.<\/p>\n    <\/header>\n\n    <section class=\"card\">\n      <h2>Nova senha<\/h2>\n      <form id=\"form\">\n        <input id=\"site\" placeholder=\"Site ou serviço (ex.: GitHub)\" required>\n        <input id=\"usuario\" placeholder=\"Usuário ou e-mail\" required>\n        <div class=\"linha\">\n          <input id=\"senha\" type=\"text\" placeholder=\"Senha\" required autocomplete=\"off\">\n          <button type=\"button\" class=\"sec\" id=\"gerar\">🎲 Gerar<\/button>\n        <\/div>\n        <div class=\"forca\"><div id=\"barra\"><\/div><\/div>\n        <span class=\"forca-texto\" id=\"forcaTexto\">Digite ou gere uma senha<\/span>\n        <button type=\"submit\">Salvar senha<\/button>\n      <\/form>\n    <\/section>\n\n    <section class=\"card\">\n      <div class=\"topo\">\n        <h2>Minhas senhas<\/h2>\n        <input id=\"busca\" placeholder=\"🔍 Buscar...\">\n      <\/div>\n      <ul id=\"lista\"><\/ul>\n      <p class=\"aviso\" style=\"margin-top:14px\">⚠️ Projeto de estudo: os dados ficam salvos só neste navegador e sem criptografia. Não use para senhas reais.<\/p>\n    <\/section>\n  <\/div>\n  <div id=\"toast\"><\/div>\n\n  <script>\n    const $ = id => document.getElementById(id);\n    let itens = [];\n    try { itens = JSON.parse(localStorage.getItem(\"passx\")) || []; } catch {}\n    const salvar = () => { try { localStorage.setItem(\"passx\", JSON.stringify(itens)); } catch {} };\n\n    function toast(msg) {\n      const t = $(\"toast\"); t.textContent = msg; t.classList.add(\"mostra\");\n      clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove(\"mostra\"), 1600);\n    }\n\n    function gerarSenha(tam = 16) {\n      const c = \"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*?\";\n      const r = crypto.getRandomValues(new Uint32Array(tam));\n      return [...r].map(n => c[n % c.length]).join(\"\");\n    }\n    function forca(s) {\n      let p = 0;\n      if (s.length >= 8) p++; if (s.length >= 12) p++;\n      if (/[a-z]/.test(s) && /[A-Z]/.test(s)) p++;\n      if (/\\d/.test(s)) p++; if (/[^A-Za-z0-9]/.test(s)) p++;\n      return p; // 0..5\n    }\n    $(\"senha\").addEventListener(\"input\", mostrarForca);\n    function mostrarForca() {\n      const s = $(\"senha\").value, p = s ? forca(s) : 0;\n      const niveis = [[\"0%\",\"#26305a\",\"Digite ou gere uma senha\"],[\"20%\",\"#ff5d73\",\"Muito fraca\"],[\"40%\",\"#ff9f5d\",\"Fraca\"],[\"60%\",\"#ffd35d\",\"Razoável\"],[\"80%\",\"#9be15d\",\"Boa\"],[\"100%\",\"#3ddc97\",\"Forte\"]];\n      $(\"barra\").style.width = niveis[p][0]; $(\"barra\").style.background = niveis[p][1];\n      $(\"forcaTexto\").textContent = niveis[p][2];\n    }\n    $(\"gerar\").onclick = () => { $(\"senha\").value = gerarSenha(); mostrarForca(); };\n\n    $(\"form\").addEventListener(\"submit\", e => {\n      e.preventDefault();\n      itens.unshift({ id: Date.now(), site: $(\"site\").value.trim(), usuario: $(\"usuario\").value.trim(), senha: $(\"senha\").value });\n      salvar(); e.target.reset(); mostrarForca(); desenhar(); toast(\"Senha salva!\");\n    });\n\n    function desenhar() {\n      const q = $(\"busca\").value.trim().toLowerCase();\n      const ul = $(\"lista\"); ul.innerHTML = \"\";\n      const vis = itens.filter(i => i.site.toLowerCase().includes(q) || i.usuario.toLowerCase().includes(q));\n      if (!vis.length) { ul.innerHTML = `<li class=\"vazio\" style=\"justify-content:center\">${itens.length ? \"Nada encontrado\" : \"Nenhuma senha salva ainda\"}<\/li>`; return; }\n      vis.forEach(i => {\n        const li = document.createElement(\"li\");\n        li.innerHTML = `<div class=\"info\"><strong><\/strong><small><\/small><div class=\"senha\"><\/div><\/div>\n          <div class=\"acoes\">\n            <button class=\"mini ver\" title=\"Mostrar/ocultar\">👁️<\/button>\n            <button class=\"mini copiar\" title=\"Copiar senha\">📄<\/button>\n            <button class=\"mini perigo del\" title=\"Excluir\">🗑️<\/button>\n          <\/div>`;\n        li.querySelector(\"strong\").textContent = i.site;\n        li.querySelector(\"small\").textContent = i.usuario;\n        const campo = li.querySelector(\".senha\"); let visivel = false;\n        const pinta = () => campo.textContent = visivel ? i.senha : \"•\".repeat(Math.min(i.senha.length, 16));\n        pinta();\n        li.querySelector(\".ver\").onclick = () => { visivel = !visivel; pinta(); };\n        li.querySelector(\".copiar\").onclick = async () => {\n          try { await navigator.clipboard.writeText(i.senha); toast(\"Senha copiada!\"); }\n          catch { toast(\"Não foi possível copiar\"); }\n        };\n        li.querySelector(\".del\").onclick = () => {\n          if (!confirm(`Excluir a senha de \"${i.site}\"?`)) return;\n          itens = itens.filter(x => x.id !== i.id); salvar(); desenhar();\n        };\n        ul.appendChild(li);\n      });\n    }\n    $(\"busca\").addEventListener(\"input\", desenhar);\n    desenhar();\n  <\/script>\n<script>document.addEventListener('keydown',function(e){if(e.key==='Escape')parent.postMessage('fechar-projeto','*')})<\/script><\/body>\n<\/html>\n", "biblioteca-digital": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Biblioteca Digital<\/title>\n  <style>\n    :root { --bg:#faf6ee; --card:#fffdf8; --borda:#e6dcc8; --texto:#2b2118; --suave:#7a6a58; --marrom:#7b4a24; --verde:#2f8f5b; --vermelho:#c0392b; }\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body { background: var(--bg); color: var(--texto); font-family: Georgia, \"Times New Roman\", serif; padding: 20px; min-height: 100vh; }\n    .wrap { max-width: 1000px; margin: 0 auto; }\n    .voltar { color: var(--marrom); text-decoration: none; font: .9rem system-ui, sans-serif; }\n    header { text-align: center; margin: 16px 0 24px; }\n    header h1 { font-size: 2.2rem; color: var(--marrom); }\n    header p { color: var(--suave); font-family: system-ui, sans-serif; margin-top: 6px; }\n    .stats { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; font-family: system-ui, sans-serif; }\n    .stats div { background: var(--card); border: 1px solid var(--borda); border-radius: 10px; padding: 8px 16px; font-size: .9rem; }\n    .stats b { color: var(--marrom); font-size: 1.1rem; }\n\n    .filtros { display: grid; gap: 10px; grid-template-columns: 2fr 1fr 1fr 1fr; margin-bottom: 22px; font-family: system-ui, sans-serif; }\n    input, select, button {\n      font: inherit; font-size: .95rem; padding: 11px 13px; border-radius: 10px;\n      border: 1px solid var(--borda); background: var(--card); color: var(--texto); width: 100%;\n    }\n    input:focus, select:focus { outline: 2px solid var(--marrom); border-color: transparent; }\n    button { cursor: pointer; font-weight: 600; background: var(--marrom); color: #fff; border: none; width: auto; transition: transform .15s; }\n    button:hover { transform: translateY(-2px); }\n\n    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }\n    .livro { background: var(--card); border: 1px solid var(--borda); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }\n    .livro:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(80,50,20,.15); }\n    .capa { height: 130px; display: flex; align-items: flex-end; padding: 12px; color: #fff; font-weight: 700; font-size: 1.05rem; line-height: 1.2; text-shadow: 0 1px 4px rgba(0,0,0,.4); }\n    .corpo { padding: 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; font-family: system-ui, sans-serif; }\n    .corpo .autor { color: var(--suave); font-size: .88rem; }\n    .meta { display: flex; justify-content: space-between; font-size: .8rem; color: var(--suave); }\n    .tag { background: #efe5d2; padding: 2px 10px; border-radius: 999px; }\n    .status { font-weight: 700; font-size: .85rem; }\n    .status.disp { color: var(--verde); } .status.emp { color: var(--vermelho); }\n    .corpo button { margin-top: auto; width: 100%; padding: 9px; font-size: .88rem; }\n    .corpo button.devolver { background: transparent; color: var(--marrom); border: 2px solid var(--marrom); }\n    .vazio { grid-column: 1 / -1; text-align: center; color: var(--suave); padding: 40px; font-family: system-ui, sans-serif; }\n\n    details { margin-top: 36px; background: var(--card); border: 1px solid var(--borda); border-radius: 12px; padding: 16px; font-family: system-ui, sans-serif; }\n    summary { cursor: pointer; font-weight: 700; color: var(--marrom); }\n    #formLivro { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); margin-top: 14px; }\n    #formLivro button { grid-column: 1 / -1; }\n    @media (max-width: 760px) { .filtros { grid-template-columns: 1fr 1fr; } .filtros input { grid-column: 1 / -1; } #formLivro { grid-template-columns: 1fr; } }\n  <\/style>\n<\/head>\n<body>\n  <div class=\"wrap\">\n    <a class=\"voltar\" href=\"#\" onclick=\"parent.postMessage('fechar-projeto','*');return false\">← Voltar ao currículo<\/a>\n    <header>\n      <h1>📚 Biblioteca Digital<\/h1>\n      <p>Catálogo com busca avançada, filtros e controle de empréstimos.<\/p>\n      <p id=\"modo\" style=\"font-size:.8rem;margin-top:8px\"><\/p>\n    <\/header>\n\n    <div class=\"stats\">\n      <div>Total: <b id=\"sTotal\">0<\/b><\/div>\n      <div>Disponíveis: <b id=\"sDisp\">0<\/b><\/div>\n      <div>Emprestados: <b id=\"sEmp\">0<\/b><\/div>\n    <\/div>\n\n    <div class=\"filtros\">\n      <input id=\"busca\" placeholder=\"🔍 Buscar por título ou autor...\">\n      <select id=\"genero\"><option value=\"\">Todos os gêneros<\/option><\/select>\n      <select id=\"situacao\">\n        <option value=\"\">Todas as situações<\/option>\n        <option value=\"disp\">Disponíveis<\/option>\n        <option value=\"emp\">Emprestados<\/option>\n      <\/select>\n      <select id=\"ordem\">\n        <option value=\"titulo\">Ordenar: Título (A–Z)<\/option>\n        <option value=\"autor\">Ordenar: Autor (A–Z)<\/option>\n        <option value=\"ano\">Ordenar: Ano (mais antigo)<\/option>\n        <option value=\"anoDesc\">Ordenar: Ano (mais recente)<\/option>\n      <\/select>\n    <\/div>\n\n    <div class=\"grid\" id=\"grid\"><\/div>\n\n    <details>\n      <summary>➕ Cadastrar novo livro<\/summary>\n      <form id=\"formLivro\">\n        <input id=\"nTitulo\" placeholder=\"Título\" required>\n        <input id=\"nAutor\" placeholder=\"Autor\" required>\n        <input id=\"nGenero\" placeholder=\"Gênero (ex.: Romance)\" required>\n        <input id=\"nAno\" type=\"number\" placeholder=\"Ano\" min=\"0\" max=\"2100\" required>\n        <button type=\"submit\">Adicionar ao catálogo<\/button>\n      <\/form>\n    <\/details>\n  <\/div>\n\n  <script>\n    const base = [\n      [\"Dom Casmurro\",\"Machado de Assis\",\"Romance\",1899],\n      [\"Memórias Póstumas de Brás Cubas\",\"Machado de Assis\",\"Romance\",1881],\n      [\"O Cortiço\",\"Aluísio Azevedo\",\"Romance\",1890],\n      [\"Iracema\",\"José de Alencar\",\"Romance\",1865],\n      [\"O Guarani\",\"José de Alencar\",\"Romance\",1857],\n      [\"Triste Fim de Policarpo Quaresma\",\"Lima Barreto\",\"Romance\",1915],\n      [\"Vidas Secas\",\"Graciliano Ramos\",\"Romance\",1938],\n      [\"Capitães da Areia\",\"Jorge Amado\",\"Romance\",1937],\n      [\"Os Sertões\",\"Euclides da Cunha\",\"Ensaio\",1902],\n      [\"Macunaíma\",\"Mário de Andrade\",\"Modernismo\",1928],\n      [\"A Hora da Estrela\",\"Clarice Lispector\",\"Romance\",1977],\n      [\"Sagarana\",\"Guimarães Rosa\",\"Contos\",1946],\n      [\"O Alienista\",\"Machado de Assis\",\"Contos\",1882],\n      [\"Quincas Borba\",\"Machado de Assis\",\"Romance\",1891],\n      [\"Poemas Escolhidos\",\"Carlos Drummond de Andrade\",\"Poesia\",1942],\n      [\"Memórias de um Sargento de Milícias\",\"Manuel Antônio de Almeida\",\"Romance\",1853],\n    ].map((b, i) => ({ id: i + 1, titulo: b[0], autor: b[1], genero: b[2], ano: b[3], emprestado: false }));\n\n    // Modo \"api\": usa o servidor Node.js + SQLite. Modo \"local\": guarda no navegador (ex.: GitHub Pages).\n    let livros = [], modo = \"local\";\n    const $ = id => document.getElementById(id);\n    const salvarLocal = () => { try { localStorage.setItem(\"biblioteca\", JSON.stringify(livros)); } catch {} };\n\n    async function carregar() {\n      try {\n        if (location.protocol === \"file:\") throw new Error(); // aberto direto do arquivo: sem servidor\n        const r = await fetch(\"api/livros\");\n        if (!r.ok) throw new Error();\n        livros = await r.json(); modo = \"api\";\n      } catch {\n        try { livros = JSON.parse(localStorage.getItem(\"biblioteca\")) || base; } catch { livros = base; }\n        modo = \"local\";\n      }\n      $(\"modo\").textContent = modo === \"api\"\n        ? \"🟢 Conectado ao servidor (Node.js + SQL)\"\n        : \"🟡 Modo offline: dados salvos só neste navegador\";\n    }\n    async function alternarEmprestimo(l) {\n      if (modo === \"api\") {\n        const r = await fetch(`api/livros/${l.id}/emprestimo`, { method: \"PATCH\" });\n        l.emprestado = (await r.json()).emprestado;\n      } else { l.emprestado = !l.emprestado; salvarLocal(); }\n    }\n    async function adicionarLivro(novo) {\n      if (modo === \"api\") {\n        const r = await fetch(\"api/livros\", { method: \"POST\", headers: { \"Content-Type\": \"application/json\" }, body: JSON.stringify(novo) });\n        if (!r.ok) { alert(\"Não foi possível salvar o livro.\"); return; }\n        livros.push(await r.json());\n      } else { livros.push({ id: Date.now(), ...novo, emprestado: false }); salvarLocal(); }\n    }\n    const norm = s => s.normalize(\"NFD\").replace(/[̀-ͯ]/g, \"\").toLowerCase();\n    const cores = [\"#8b5e3c\",\"#3c6e71\",\"#7d4e57\",\"#4a5d8f\",\"#6b7a3d\",\"#8f4a4a\",\"#5a4a78\"];\n    const corDe = t => cores[[...t].reduce((a, c) => a + c.charCodeAt(0), 0) % cores.length];\n\n    function opcoesGenero() {\n      const atual = $(\"genero\").value;\n      const gs = [...new Set(livros.map(l => l.genero))].sort();\n      $(\"genero\").innerHTML = '<option value=\"\">Todos os gêneros<\/option>' + gs.map(g => `<option>${g}<\/option>`).join(\"\");\n      $(\"genero\").value = gs.includes(atual) ? atual : \"\";\n    }\n\n    function desenhar() {\n      const q = norm($(\"busca\").value.trim()), g = $(\"genero\").value, s = $(\"situacao\").value, o = $(\"ordem\").value;\n      let lista = livros.filter(l =>\n        (!q || norm(l.titulo).includes(q) || norm(l.autor).includes(q)) &&\n        (!g || l.genero === g) &&\n        (!s || (s === \"emp\") === l.emprestado));\n      const cmp = {\n        titulo: (a, b) => a.titulo.localeCompare(b.titulo, \"pt\"),\n        autor: (a, b) => a.autor.localeCompare(b.autor, \"pt\"),\n        ano: (a, b) => a.ano - b.ano, anoDesc: (a, b) => b.ano - a.ano,\n      }[o];\n      lista.sort(cmp);\n\n      $(\"sTotal\").textContent = livros.length;\n      $(\"sEmp\").textContent = livros.filter(l => l.emprestado).length;\n      $(\"sDisp\").textContent = livros.length - $(\"sEmp\").textContent;\n\n      const grid = $(\"grid\"); grid.innerHTML = \"\";\n      if (!lista.length) { grid.innerHTML = '<div class=\"vazio\">Nenhum livro encontrado com esses filtros.<\/div>'; return; }\n      lista.forEach(l => {\n        const el = document.createElement(\"article\"); el.className = \"livro\";\n        el.innerHTML = `<div class=\"capa\"><\/div>\n          <div class=\"corpo\">\n            <strong class=\"titulo\"><\/strong><span class=\"autor\"><\/span>\n            <div class=\"meta\"><span class=\"tag\"><\/span><span class=\"ano\"><\/span><\/div>\n            <span class=\"status\"><\/span>\n            <button><\/button>\n          <\/div>`;\n        el.querySelector(\".capa\").style.background = `linear-gradient(135deg, ${corDe(l.titulo)}, #2b2118)`;\n        el.querySelector(\".capa\").textContent = l.titulo;\n        el.querySelector(\".titulo\").textContent = l.titulo;\n        el.querySelector(\".autor\").textContent = l.autor;\n        el.querySelector(\".tag\").textContent = l.genero;\n        el.querySelector(\".ano\").textContent = l.ano;\n        const st = el.querySelector(\".status\"), bt = el.querySelector(\"button\");\n        st.textContent = l.emprestado ? \"● Emprestado\" : \"● Disponível\";\n        st.className = \"status \" + (l.emprestado ? \"emp\" : \"disp\");\n        bt.textContent = l.emprestado ? \"Devolver\" : \"Emprestar\";\n        if (l.emprestado) bt.classList.add(\"devolver\");\n        bt.onclick = async () => { await alternarEmprestimo(l); desenhar(); };\n        grid.appendChild(el);\n      });\n    }\n\n    [\"busca\",\"genero\",\"situacao\",\"ordem\"].forEach(id => $(id).addEventListener(\"input\", desenhar));\n    $(\"formLivro\").addEventListener(\"submit\", async e => {\n      e.preventDefault();\n      await adicionarLivro({ titulo: $(\"nTitulo\").value.trim(), autor: $(\"nAutor\").value.trim(),\n        genero: $(\"nGenero\").value.trim(), ano: +$(\"nAno\").value });\n      e.target.reset(); opcoesGenero(); desenhar();\n    });\n    carregar().then(() => { opcoesGenero(); desenhar(); });\n  <\/script>\n<script>document.addEventListener('keydown',function(e){if(e.key==='Escape')parent.postMessage('fechar-projeto','*')})<\/script><\/body>\n<\/html>\n", "login-animado": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Login Animado<\/title>\n  <style>\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      min-height: 100vh; display: grid; place-items: center; overflow: hidden; padding: 20px;\n      font-family: \"Segoe UI\", system-ui, sans-serif; color: #fff;\n      background: linear-gradient(120deg, #1b1464, #5b2a86, #0f7a8a, #1b1464);\n      background-size: 300% 300%; animation: fundo 14s ease infinite;\n    }\n    @keyframes fundo { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }\n\n    /* bolhas flutuantes */\n    .bolhas { position: fixed; inset: 0; pointer-events: none; }\n    .bolhas span {\n      position: absolute; bottom: -120px; border-radius: 50%;\n      background: rgba(255,255,255,.12); animation: subir linear infinite;\n    }\n    .bolhas span:nth-child(1) { left: 8%;  width: 60px;  height: 60px;  animation-duration: 12s; }\n    .bolhas span:nth-child(2) { left: 22%; width: 110px; height: 110px; animation-duration: 18s; animation-delay: 2s; }\n    .bolhas span:nth-child(3) { left: 40%; width: 40px;  height: 40px;  animation-duration: 10s; animation-delay: 4s; }\n    .bolhas span:nth-child(4) { left: 58%; width: 90px;  height: 90px;  animation-duration: 16s; animation-delay: 1s; }\n    .bolhas span:nth-child(5) { left: 74%; width: 55px;  height: 55px;  animation-duration: 13s; animation-delay: 5s; }\n    .bolhas span:nth-child(6) { left: 90%; width: 120px; height: 120px; animation-duration: 20s; animation-delay: 3s; }\n    @keyframes subir { to { transform: translateY(-120vh) rotate(360deg); } }\n\n    .voltar { position: fixed; top: 16px; left: 18px; color: #fff; opacity: .8; text-decoration: none; font-size: .9rem; z-index: 2; }\n    .voltar:hover { opacity: 1; }\n\n    .card {\n      position: relative; z-index: 1; width: min(380px, 100%); padding: 38px 32px;\n      border-radius: 22px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);\n      backdrop-filter: blur(16px); box-shadow: 0 25px 60px rgba(0,0,0,.35);\n      animation: entrar .8s cubic-bezier(.2,.9,.3,1.2) both;\n    }\n    @keyframes entrar { from { opacity: 0; transform: translateY(40px) scale(.94); } }\n    .avatar {\n      width: 74px; height: 74px; margin: 0 auto 14px; border-radius: 50%;\n      display: grid; place-items: center; font-size: 2rem;\n      background: linear-gradient(135deg, #ff7eb3, #7a5cff); animation: flutuar 3s ease-in-out infinite;\n    }\n    @keyframes flutuar { 50% { transform: translateY(-8px); } }\n    h1 { text-align: center; font-size: 1.6rem; }\n    .sub { text-align: center; opacity: .75; margin: 4px 0 26px; font-size: .92rem; }\n\n    .campo { position: relative; margin-bottom: 22px; }\n    .campo input {\n      width: 100%; padding: 14px 44px 8px 14px; font: inherit; color: #fff;\n      background: rgba(255,255,255,.1); border: 1px solid transparent; border-radius: 12px; outline: none;\n      transition: border-color .25s, background .25s;\n    }\n    .campo input:focus { border-color: #fff; background: rgba(255,255,255,.18); }\n    .campo label {\n      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);\n      pointer-events: none; opacity: .75; transition: .2s ease;\n    }\n    .campo input:focus + label, .campo input:not(:placeholder-shown) + label {\n      top: 11px; font-size: .7rem; opacity: 1; letter-spacing: .5px;\n    }\n    .campo .olho {\n      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);\n      background: none; border: none; color: #fff; cursor: pointer; font-size: 1.1rem; padding: 6px;\n    }\n    .linha { display: flex; justify-content: space-between; font-size: .85rem; margin-bottom: 22px; }\n    .linha label { display: flex; gap: 6px; align-items: center; cursor: pointer; }\n    .linha a { color: #fff; opacity: .85; }\n    button.entrar {\n      width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer;\n      font: inherit; font-weight: 700; color: #1b1464; background: #fff;\n      position: relative; overflow: hidden; transition: transform .2s, box-shadow .2s;\n    }\n    button.entrar:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.3); }\n    button.entrar::after {\n      content: \"\"; position: absolute; top: 0; left: -80%; width: 50%; height: 100%;\n      background: linear-gradient(90deg, transparent, rgba(122,92,255,.35), transparent);\n      transform: skewX(-20deg); transition: left .6s;\n    }\n    button.entrar:hover::after { left: 130%; }\n    button.entrar.carregando { pointer-events: none; opacity: .85; }\n    .msg { text-align: center; margin-top: 16px; min-height: 22px; font-size: .9rem; }\n    .msg.erro { color: #ffd1d9; animation: tremer .4s; }\n    .msg.ok { color: #c9ffe3; }\n    @keyframes tremer { 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }\n    .card.balanca { animation: tremer .4s; }\n    .rodape { text-align: center; font-size: .72rem; opacity: .6; margin-top: 14px; }\n  <\/style>\n<\/head>\n<body>\n  <a class=\"voltar\" href=\"#\" onclick=\"parent.postMessage('fechar-projeto','*');return false\">← Voltar ao currículo<\/a>\n  <div class=\"bolhas\"><span><\/span><span><\/span><span><\/span><span><\/span><span><\/span><span><\/span><\/div>\n\n  <main class=\"card\" id=\"card\">\n    <div class=\"avatar\">👤<\/div>\n    <h1>Bem-vindo de volta<\/h1>\n    <p class=\"sub\">Entre para continuar<\/p>\n\n    <form id=\"form\" novalidate>\n      <div class=\"campo\">\n        <input id=\"email\" type=\"email\" placeholder=\" \" autocomplete=\"off\">\n        <label for=\"email\">E-mail<\/label>\n      <\/div>\n      <div class=\"campo\">\n        <input id=\"senha\" type=\"password\" placeholder=\" \">\n        <label for=\"senha\">Senha<\/label>\n        <button type=\"button\" class=\"olho\" id=\"olho\" aria-label=\"Mostrar senha\">👁️<\/button>\n      <\/div>\n      <div class=\"linha\">\n        <label><input type=\"checkbox\"> Lembrar de mim<\/label>\n        <a href=\"#\" onclick=\"return false\">Esqueci a senha<\/a>\n      <\/div>\n      <button class=\"entrar\" id=\"entrar\" type=\"submit\">Entrar<\/button>\n      <p class=\"msg\" id=\"msg\"><\/p>\n    <\/form>\n    <p class=\"rodape\">Página de demonstração: nenhum dado é enviado ou salvo.<\/p>\n  <\/main>\n\n  <script>\n    const $ = id => document.getElementById(id);\n    $(\"olho\").onclick = () => {\n      const mostrar = $(\"senha\").type === \"password\";\n      $(\"senha\").type = mostrar ? \"text\" : \"password\";\n      $(\"olho\").textContent = mostrar ? \"🙈\" : \"👁️\";\n    };\n    $(\"form\").addEventListener(\"submit\", e => {\n      e.preventDefault();\n      const msg = $(\"msg\"); msg.className = \"msg\";\n      const email = $(\"email\").value.trim(), senha = $(\"senha\").value;\n      if (!/^\\S+@\\S+\\.\\S+$/.test(email) || senha.length < 6) {\n        msg.textContent = \"Informe um e-mail válido e uma senha de 6+ caracteres.\";\n        msg.classList.add(\"erro\");\n        $(\"card\").classList.remove(\"balanca\"); void $(\"card\").offsetWidth; $(\"card\").classList.add(\"balanca\");\n        return;\n      }\n      const b = $(\"entrar\"); b.classList.add(\"carregando\"); b.textContent = \"Entrando...\";\n      setTimeout(() => {\n        b.classList.remove(\"carregando\"); b.textContent = \"Entrar\";\n        msg.textContent = \"✅ Login simulado com sucesso!\"; msg.classList.add(\"ok\");\n      }, 1200);\n    });\n  <\/script>\n<script>document.addEventListener('keydown',function(e){if(e.key==='Escape')parent.postMessage('fechar-projeto','*')})<\/script><\/body>\n<\/html>\n"};
+    const modal = document.getElementById("modal"), quadro = document.getElementById("quadro");
+    function abrirProjeto(chave) {
+      quadro.srcdoc = PROJETOS[chave];
+      modal.classList.add("aberto"); document.body.classList.add("travado");
+    }
+    function fecharProjeto() {
+      modal.classList.remove("aberto"); document.body.classList.remove("travado");
+      quadro.srcdoc = "";
+    }
+    document.querySelectorAll("[data-projeto]").forEach(a =>
+      a.addEventListener("click", e => { e.preventDefault(); abrirProjeto(a.dataset.projeto); }));
+    document.getElementById("fecharModal").addEventListener("click", fecharProjeto);
+    modal.addEventListener("click", e => { if (e.target === modal) fecharProjeto(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("aberto")) fecharProjeto(); });
+    window.addEventListener("message", e => { if (e.data === "fechar-projeto") fecharProjeto(); });
+  </script>
+</body>
+</html>
